@@ -78,6 +78,6 @@ contract ChequeRepublic is ReentrancyGuard {
 
         cashedCheques[_chequeHash] = true;
 
-        IERC20(_token).transferFrom(signer, msg.sender, _value);
+        IERC20(_token).transferFrom(signer, _payee, _value);
     }
 }

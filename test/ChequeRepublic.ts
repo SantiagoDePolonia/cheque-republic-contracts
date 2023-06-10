@@ -53,6 +53,7 @@ describe("ChequeRepublic contract", function () {
       ["bytes32", "uint256", "address"],
       [chequeHash, chainId, await chequeContract.getAddress()]
     );
+
     const sig1: string = await signer.signMessage(getBytes(message1));
 
     // Payee approves the cheque

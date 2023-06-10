@@ -1,4 +1,4 @@
-Contract address (Sepolia Network): 0xf221D3C1e3a49Bce6FC6dCF2AB83680d2851C618
+Contract address (Sepolia Network): 0x5C34E76Ec1B1081AB40fAe3e826F37A25C1c3890
 
 # Cheque Republic
 
