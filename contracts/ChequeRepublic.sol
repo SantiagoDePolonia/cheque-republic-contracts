@@ -58,6 +58,8 @@ contract ChequeRepublic is ReentrancyGuard {
             pendingCheques[_chequeHash] == _payee,
             "Cheque has not been preauthorized"
         );
+        require(cashedCheques[_chequeHash] != true, "Cheque already cashed");
+
         require(block.timestamp <= _expirationDate, "Cheque expired");
 
         bytes32 message = keccak256(
