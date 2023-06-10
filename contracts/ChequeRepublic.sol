@@ -19,13 +19,14 @@ contract ChequeRepublic is ReentrancyGuard {
     using ECDSA for bytes32;
 
     mapping(bytes32 => bool) public cashedCheques;
-    mapping(bytes32 => bool) public pendingCheques;
+    mapping(bytes32 => address) public pendingCheques;
 
     /// @notice commit cheque withdrawal before withdraw to prevent front-running attacks
     function commitWithdrawal(
         bytes32 _chequeHash,
         address _drawer,
-        bytes memory _signature
+        bytes memory _signature,
+        address _payee
     ) public {
         bytes32 message = keccak256(
             abi.encodePacked(_chequeHash, block.chainid, address(this))
@@ -34,8 +35,12 @@ contract ChequeRepublic is ReentrancyGuard {
         address signer = ECDSA.recover(msgToSign, _signature);
 
         require(signer == _drawer, "Invalid signature for preauthorization");
+        require(
+            pendingCheques[_chequeHash] == address(0x0),
+            "Address already set"
+        );
 
-        pendingCheques[_chequeHash] = true;
+        pendingCheques[_chequeHash] = _payee;
     }
 
     /// @notice This is the second step of withdrawal. If first transaction was validated just send the second one and get tokens from the cheque republic.
@@ -46,10 +51,11 @@ contract ChequeRepublic is ReentrancyGuard {
         uint _value,
         uint _expirationDate,
         uint _nameHash,
-        bytes memory _signature
+        bytes memory _signature,
+        address _payee
     ) public nonReentrant {
         require(
-            pendingCheques[_chequeHash],
+            pendingCheques[_chequeHash] == _payee,
             "Cheque has not been preauthorized"
         );
         require(block.timestamp <= _expirationDate, "Cheque expired");

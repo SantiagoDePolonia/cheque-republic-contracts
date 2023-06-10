@@ -58,7 +58,12 @@ describe("ChequeRepublic contract", function () {
     // Payee approves the cheque
     await chequeContract
       .connect(payee)
-      .commitWithdrawal(chequeHash, await signer.getAddress(), sig1);
+      .commitWithdrawal(
+        chequeHash,
+        await signer.getAddress(),
+        sig1,
+        await payee.getAddress()
+      );
 
     // Sign withdrawToAddress message with signer's wallet
     const message2: string = solidityPackedKeccak256(
@@ -92,7 +97,8 @@ describe("ChequeRepublic contract", function () {
         CHEQUE_VALUE,
         EXPIRATION,
         NAME_HASH,
-        sig2
+        sig2,
+        await payee.getAddress()
       );
     // Check that the payee received the tokens
     const balance = await erc20Token.balanceOf(await payee.getAddress());
