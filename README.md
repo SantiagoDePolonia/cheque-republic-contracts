@@ -7,7 +7,7 @@ Contract addresses:
 - Taiko - 0x958C28B8fcEC7E510840E9284374793cF857F88C
   https://explorer.test.taiko.xyz/address/0x958C28B8fcEC7E510840E9284374793cF857F88C
 
-Cheque Republic dApp link:
+Cheque Republic dApp link: cheque-republic.surge.sh/
 
 # Interaction diagram
 
